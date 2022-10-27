@@ -143,24 +143,5 @@ def add_blog():
         return jsonify({'error':'Provide blog details in JSON format in the request body'}), HTTP_400_BAD_REQUEST
     return jsonify({'message': 'blog created'}),HTTP_201_CREATED
 
-
-
-
-
-    
-
-
-
-# @app.route("/")
-# def get_todos():
-#     todos = []
-#     for todo in db.todos_flask.find().sort("date_created", -1):
-#         todo["_id"] = str(todo["_id"])
-#         todo["date_created"] = todo["date_created"].strftime("%b %d %Y %H:%M:%S")
-#         todos.append(todo)
-
-#     return render_template("view_todos.html", todos = todos)
-
-
 if __name__=="__main__":
     app.run(debug=True)
