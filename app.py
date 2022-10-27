@@ -1,5 +1,4 @@
 # status codes
-from crypt import methods
 from src.status_code import HTTP_200_OK, HTTP_201_CREATED, HTTP_400_BAD_REQUEST, HTTP_404_NOT_FOUND, HTTP_409_CONFLICT, HTTP_500_INTERNAL_SERVER_ERROR
 # import all requirements
 from distutils.log import debug
@@ -24,6 +23,7 @@ user_name = config('BD_USERNAME')
 user_password = config('DB_PASSWORD')
 
 connect_link = f"mongodb+srv://{user_name}:{user_password}@cluster0.8poqlow.mongodb.net/?retryWrites=true&w=majority"
+
 client = MongoClient(connect_link)
 
 
