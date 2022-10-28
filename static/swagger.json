@@ -1,0 +1,221 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "description": "KodeDiego",
+      "version": "1.0.0",
+      "title": "Simple CRUD API",
+      "license": {
+        "name": "MIT",
+        "url": "https://opensource.org/licenses/MIT"
+      }
+    },
+    "tags": [
+        {
+          "name": "BlogAPE",
+          "description": "This is a simple Flask API with MongoDB"
+        }
+      ],
+      "servers": [
+        {
+        "url": "/"
+        }
+    ],
+    "components": {
+        "schemas": {
+            "Blog": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                    "type": "string"
+                    },
+                    "description": {
+                    "type": "string"
+                    }
+                }
+            },
+            "Id":{
+            "type" : "string",
+            "properties" : {
+                "title" : {
+                    "type" : "string"
+                }
+            }
+        },
+            "update":{
+              "type": "object",
+              "properties" :{
+                "title": {
+                    "type": "string"
+                    },
+                  "description": {
+                    "type": "string"
+                  }
+              }
+            }
+        }
+    },
+    
+"paths": {
+    "/api/v1.0/blogape/blog": {
+        "post": {
+        "tags": [
+            "Create new post"
+        ],
+        "summary": "Add blog",
+        "requestBody": {
+        "description": "Add new blog to db",
+        "required": true,
+        "content": {
+            "application/json": {
+            "schema": {
+                "$ref": "#/components/schemas/Blog"
+                }
+            }
+        }
+        },
+        "responses": {
+            "200": {
+                "description": "OK",
+                "schema": {
+                "$ref": "#/components/schemas/Blog"
+                }
+            },
+            "404": {
+                "description": "NOT FOUND",
+                "schema": {
+                "$ref": "#/components/schemas/Blog"
+                }
+        }
+        }
+        },
+        "get" :{
+            "tags": [
+                "Get All blogs from API"
+            ],
+            "summary": "Get All Blogs",
+           
+            "responses": {
+            "200": {
+                "description": "OK",
+                "schema": {
+                "$ref": "#/components/schemas/Blog"
+                }
+            },
+            "404": {
+                "description": "NOT FOUND",
+                "schema": {
+                "$ref": "#/components/schemas/Blog"
+                }
+        }
+        }
+        }
+    },
+
+    "/api/v1.0/blogape/blog/{id}":{
+
+        "get" :{
+            "tags": [
+                "Get single Blog"
+            ],
+            "summary": "Get blog",
+            "parameters": [{
+              "name": "id",
+              "in": "path",
+              "description": "Get single blog by ID",
+              "required": true,
+              "type": "string",
+              "schema" : {
+                  "$ref": "#/components/schemas/Id"
+              }
+            }],
+           
+            "responses": {
+            "200": {
+                "description": "OK",
+                "schema": {
+                "$ref": "#/components/schemas/Blog"
+                }
+            },
+            "404": {
+                "description": "NOT FOUND",
+                "schema": {
+                "$ref": "#/components/schemas/Blog"
+                }
+        }
+        }
+        },
+       
+        "put": {
+        "tags": [
+            "Update single blog"
+        ],
+        "parameters": [{
+            "name": "id",
+            "in": "path",
+            "description": "Blog id to update",
+            "required": true,
+            "type": "string",
+            "schema" : {
+                "$ref": "#/components/schemas/Id"
+            }
+        }],
+        "summary": "Update blog",
+        "requestBody": {
+        "description": "Update Existing blog On Database",
+        "required": true,
+        "content": {
+            "application/json": {
+                "schema": {
+                    "$ref": "#/components/schemas/update"
+                }
+            }
+        }
+        },
+        "responses": {
+            "200": {
+                "description": "OK",
+                "schema": {
+                "$ref": "#/components/schemas/Blog"
+                }
+            },
+            "404": {
+                "description": "NOT FOUND",
+                "schema": {
+                "$ref": "#/components/schemas/Blog"
+                }
+        }
+        }
+    },
+    "delete": {
+        "tags": [
+            "Delete single blog"
+        ],
+        "parameters": [{
+            "name": "id",
+            "in": "path",
+            "description": "product id to delete",
+            "required": true,
+            "type": "string",
+            "schema" : {
+                "$ref": "#/components/schemas/Id"
+            }
+        }],
+        "summary": "Delete blog",
+        
+        "responses": {
+            "200": {
+                "description": "OK",
+                "schema": {
+                "$ref": "#/components/schemas/Blog"
+                }
+            },
+            "404": {
+                "description": "NOT FOUND",
+                "schema": {
+                "$ref": "#/components/schemas/Blog"
+                }
+        }
+        }
+    }
+    }
+}}

@@ -1,0 +1,56 @@
+@import url('https://fonts.googleapis.com/css2?family=Righteous&display=swap');
+
+
+body {
+  font-family: 'Karla', sans-serif;
+  color: #000000;
+  padding-bottom: 75px; }
+  @media (min-width: 768px) {
+    body {
+      padding-bottom: 110px; } }
+
+.page-title {
+  font-size: 80px;
+  font-weight: 900;
+  margin-bottom: 6px;
+  font-family: 'Righteous', cursive;
+
+}
+  @media (max-width: 767px) {
+    .page-title {
+      font-size: 35px;
+      margin-bottom: 14px; } }
+
+.page-description {
+  max-width: 465px;
+  font-size: 18px;
+  margin-bottom: 59px; }
+  @media (max-width: 767px) {
+    .page-description {
+      font-size: 14px; } }
+
+p {
+  font-size: 14px;
+  margin-bottom: 21px; }
+
+.footer-social-links .social-link {
+  display: inline-block;
+  text-align: center;
+  line-height: 40px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  color: #000000;
+  margin-right: 16px;
+  transition: all 0.3s ease-in-out; }
+  .footer-social-links .social-link:last-child {
+    margin-right: 0; }
+  .footer-social-links .social-link:hover {
+    text-decoration: none;
+    background-color: #000000;
+    color: #ffffff; }
+
+    .flask{
+        text-decoration: none;
+    }

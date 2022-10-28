@@ -4,11 +4,13 @@ from src.status_code import HTTP_200_OK, HTTP_201_CREATED, HTTP_400_BAD_REQUEST,
 from distutils.log import debug
 from http import client
 from decouple import config
-from flask import Flask, make_response, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 import datetime
 from random import randint
+
+from flask_swagger_ui import get_swaggerui_blueprint
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = config('SECRET_KEY_APP')
@@ -33,6 +35,20 @@ db = client.blogapi
 # to access the todos collections
 blog = db.blogs
 
+# swagger
+
+SWAGGER_URL = '/docs'  
+API_URL = '/static/swagger.json'
+
+# Call factory function to create our blueprint
+swaggerui_blueprint = get_swaggerui_blueprint(
+    SWAGGER_URL,
+    API_URL,
+    config={ 
+        'app_name': "Simple CRUD API"
+    },
+)
+app.register_blueprint(swaggerui_blueprint, url_prefix= SWAGGER_URL)
 
 # error handlers
 @app.errorhandler(HTTP_404_NOT_FOUND)
@@ -43,9 +59,13 @@ def handle_404(e):
 def handle_500(e):
     return jsonify({'error': 'Something went wrong, we are working on it'}), HTTP_500_INTERNAL_SERVER_ERROR
 
+# Welcome page
+@app.route('/', methods=['GET'])
+def blog_api():
+    return render_template('home.html')
 
 # get all blogs
-@app.route('/api/v1.0/blogape/blogs', methods=["GET"])
+@app.route('/api/v1.0/blogape/blog', methods=["GET"])
 def all_blogs():
     all_blogs = blog.find().sort("created", -1)
     data = []
