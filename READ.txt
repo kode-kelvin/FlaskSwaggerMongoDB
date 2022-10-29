@@ -1,5 +1,0 @@
-Requirements
-
-pip install pymongo
-pip install dnspython
-# ObjectId("thestringID")
