@@ -9,11 +9,13 @@ from pymongo import MongoClient
 from bson.objectid import ObjectId
 import datetime
 from random import randint
+from flask_cors import CORS
 
 from flask_swagger_ui import get_swaggerui_blueprint
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = config('SECRET_KEY_APP')
+CORS(app)
 
 # some functions
 def randomNumb():
