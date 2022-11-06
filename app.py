@@ -10,6 +10,7 @@ from bson.objectid import ObjectId
 import datetime
 from random import randint
 from flask_cors import CORS
+import json
 
 from flask_swagger_ui import get_swaggerui_blueprint
 
@@ -51,6 +52,9 @@ swaggerui_blueprint = get_swaggerui_blueprint(
     },
 )
 app.register_blueprint(swaggerui_blueprint, url_prefix= SWAGGER_URL)
+def default(item):
+        if isinstance(item, ObjectId):
+            return str(item)
 
 # error handlers
 @app.errorhandler(HTTP_404_NOT_FOUND)
@@ -73,36 +77,36 @@ def all_blogs():
     data = []
     for i in all_blogs:
         data.append({
-        'id': i["blog_id"],
+        'id':  default(i["_id"]),
         'title': i['title'],
         'description': i['description'],
-        'created': i['created']
+        'created': i['created'].strftime("%a %B %Y %H:%M")
         })
     return jsonify(data), HTTP_200_OK
 
 # get single blog
-@app.route('/api/v1.0/blogape/blog/<oid>', methods=["GET"]) 
-def single_blog(oid):
+@app.route('/api/v1.0/blogape/blog/<id>', methods=["GET"]) 
+def single_blog(id):
     try:
-        singleBlog = blog.find_one({'_id': ObjectId(oid)})
+        singleBlog = blog.find_one({'_id': ObjectId(id)})
         if not singleBlog:
             return jsonify({'error':'Invalid blog id'}), HTTP_400_BAD_REQUEST
     except AttributeError:
         return jsonify({'error':'Blog id missing'}), HTTP_400_BAD_REQUEST
     return jsonify(
         {
-            "id": singleBlog['blog_id'],
+            "id": default(singleBlog['_id']),
             "title": singleBlog['title'],
-            "description": singleBlog['description']
+            "description": singleBlog['description'],
+            'created': singleBlog['created'].strftime("%a %B %Y %H:%M")
         }
     ), HTTP_200_OK
 
-
 # update a blog
-@app.route('/api/v1.0/blogape/blog/<oid>', methods=["PUT"]) 
-def update_blog(oid):
+@app.route('/api/v1.0/blogape/blog/<id>', methods=["PUT"]) 
+def update_blog(id):
     try:
-        singleBlog = blog.find_one({'_id': ObjectId(oid)})
+        singleBlog = blog.find_one({'_id': ObjectId(id)})
         if not singleBlog:
             return jsonify({'error':'Invalid blog id'}), HTTP_400_BAD_REQUEST
 
@@ -117,7 +121,7 @@ def update_blog(oid):
         if isinstance(description, (int, float)):
             return jsonify({'error': "Description must be a string"}), HTTP_400_BAD_REQUEST
 
-        blog.update_one({"_id": ObjectId(oid)}, {"$set": {
+        blog.update_one({"_id": ObjectId(id)}, {"$set": {
             "title": title,
             "description": description
            
@@ -128,13 +132,13 @@ def update_blog(oid):
 
 
 # Delete single blog
-@app.route('/api/v1.0/blogape/blog/<oid>', methods=["DELETE"]) 
-def delete_blog(oid):
+@app.route('/api/v1.0/blogape/blog/<id>', methods=["DELETE"]) 
+def delete_blog(id):
     try:
-        singleBlog = blog.find_one({'_id': ObjectId(oid)})
+        singleBlog = blog.find_one({'_id': ObjectId(id)})
         if not singleBlog:
             return jsonify({'error':'Invalid blog id'}), HTTP_400_BAD_REQUEST
-        blog.find_one_and_delete({"_id": ObjectId(oid)})
+        blog.find_one_and_delete({"_id": ObjectId(id)})
     except AttributeError:
         return jsonify({'error':'Blog id missing'}), HTTP_400_BAD_REQUEST
     return jsonify({'message':'Blog successfully deleted'}), HTTP_200_OK
