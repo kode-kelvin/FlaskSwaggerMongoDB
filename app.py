@@ -170,4 +170,4 @@ def add_blog():
     return jsonify({'message': 'blog created'}),HTTP_201_CREATED
 
 if __name__=="__main__":
-    app.run(debug=True)
+    app.run(debug=False)
